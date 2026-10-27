@@ -67,4 +67,5 @@ vcpkg_installed/
 Testing/
 .cache/
 
-lib/sqlite/
+lib/sqlite/*
+!lib/sqlite/.gitkeep
