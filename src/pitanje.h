@@ -4,8 +4,8 @@
 class Pitanje{
     public:
         Pitanje();
-        Pitanje(int i, int ik, std::string t, std::string o1, std::string o2, 
-            std::string o3, std::string o4, int to);
+        Pitanje(int i, int ik, const std::string& t, const std::string& o1, const std::string& o2, 
+            const std::string& o3, const std::string& o4, int to);
         Pitanje(const Pitanje& p);
 
         int getId() const;
@@ -19,11 +19,11 @@ class Pitanje{
 
         void setId(int id);
         void setIdKviza(int id_kviza);
-        void setTekst(std::string tekst);
-        void setOdgovor1(std::string odgovor1);
-        void setOdgovor2(std::string odgovor2);
-        void setOdgovor3(std::string odgovor3);
-        void setOdgovor4(std::string odgovor4);
+        void setTekst(const std::string& tekst);
+        void setOdgovor1(const std::string& odgovor1);
+        void setOdgovor2(const std::string& odgovor2);
+        void setOdgovor3(const std::string& odgovor3);
+        void setOdgovor4(const std::string& odgovor4);
         void setTacanOdgovor(int tacan_odgovor);
 
     private:

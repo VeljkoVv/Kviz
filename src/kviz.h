@@ -6,7 +6,7 @@
 class Kviz{
     public:
         Kviz();
-        Kviz(int i, std::string n, const std::vector<Pitanje>& p);
+        Kviz(int i, const std::string& n, const std::vector<Pitanje>& p);
         Kviz(const Kviz& kviz);
 
         int getId() const;
@@ -14,7 +14,7 @@ class Kviz{
         const std::vector<Pitanje> getPitanja() const;
 
         void setId(int i);
-        void setNaziv(std::string n);
+        void setNaziv(const std::string& n);
         void setPitanja(const std::vector<Pitanje>& p);
     private:
         int id;
