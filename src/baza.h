@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "kviz.h"
+#include "pitanje.h"
 
 struct sqlite3;
-
+/*
 struct PitanjePodaci{
     int id;
     int kviz_id;
@@ -19,7 +21,7 @@ struct KvizPodaci {
     int id;
     std::string naziv;
 };
-
+*/
 class Baza{
     public:
         explicit Baza(const std::string& putanja);
@@ -27,8 +29,8 @@ class Baza{
         Baza(const Baza&) = delete;
         Baza& operator=(const Baza&) = delete;
 
-        std::vector<KvizPodaci> ucitajSveKvizove();
-        std::vector<PitanjePodaci> ucitajSvaPitanjaKviza(int kviz_id);
+        std::vector<Kviz> ucitajSveKvizove() const;
+        std::vector<Pitanje> ucitajSvaPitanjaKviza(int kviz_id) const;
 
     private:
         sqlite3* db_p = nullptr;

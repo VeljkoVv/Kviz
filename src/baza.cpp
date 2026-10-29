@@ -15,8 +15,8 @@ Baza::~Baza(){
     sqlite3_close(db_p);
 }
 
-std::vector<KvizPodaci> Baza::ucitajSveKvizove() {
-    std::vector<KvizPodaci> kvizovi;
+std::vector<Kviz> Baza::ucitajSveKvizove() const{
+    std::vector<Kviz> kvizovi;
     sqlite3_stmt* stmt = nullptr;
 
     const char* sql = "SELECT id, naziv FROM kviz;";
@@ -27,10 +27,10 @@ std::vector<KvizPodaci> Baza::ucitajSveKvizove() {
      }
 
      while(sqlite3_step(stmt) == SQLITE_ROW){
-        KvizPodaci k;
-        k.id = sqlite3_column_int(stmt, 0);
+        Kviz k;
+        k.setId(sqlite3_column_int(stmt, 0));
         const unsigned char* naziv = sqlite3_column_text(stmt, 1);
-        k.naziv = naziv ? reinterpret_cast<const char*>(naziv) : "";
+        k.setNaziv(naziv ? reinterpret_cast<const char*>(naziv) : "");
 
         kvizovi.push_back(k);
      }
@@ -39,8 +39,8 @@ std::vector<KvizPodaci> Baza::ucitajSveKvizove() {
     return kvizovi;
 }
 
-std::vector<PitanjePodaci> Baza::ucitajSvaPitanjaKviza(int kviz_id) {
-    std::vector<PitanjePodaci> pitanja;
+std::vector<Pitanje> Baza::ucitajSvaPitanjaKviza(int kviz_id) const{
+    std::vector<Pitanje> pitanja;
     sqlite3_stmt* stmt = nullptr;
 
     const char* sql = "SELECT id, kviz_id, tekst, odgovor1, odgovor2, odgovor3, odgovor4, tacan_odgovor FROM pitanja WHERE kviz_id = ?;";
@@ -53,22 +53,22 @@ std::vector<PitanjePodaci> Baza::ucitajSvaPitanjaKviza(int kviz_id) {
     sqlite3_bind_int(stmt, 1, kviz_id);
 
     while(sqlite3_step(stmt) == SQLITE_ROW){
-        PitanjePodaci p;
-        p.id = sqlite3_column_int(stmt, 0);
-        p.kviz_id = sqlite3_column_int(stmt, 1);
+        Pitanje p;
+        p.setId(sqlite3_column_int(stmt, 0));
+        p.setIdKviza(sqlite3_column_int(stmt, 1));
     
         const unsigned char* tekst = sqlite3_column_text(stmt, 1);
-        p.tekst = tekst ? reinterpret_cast<const char*>(tekst) : "";
+        p.setTekst(tekst ? reinterpret_cast<const char*>(tekst) : "");
         const unsigned char* o1 = sqlite3_column_text(stmt, 2);
-        p.odgovor1 = o1 ? reinterpret_cast<const char*>(o1) : "";
+        p.setOdgovor1(o1 ? reinterpret_cast<const char*>(o1) : "");
         const unsigned char* o2 = sqlite3_column_text(stmt, 3);
-        p.odgovor2 = o2 ? reinterpret_cast<const char*>(o2) : "";
+        p.setOdgovor2(o2 ? reinterpret_cast<const char*>(o2) : "");
         const unsigned char* o3 = sqlite3_column_text(stmt, 4);
-        p.odgovor3 = o3 ? reinterpret_cast<const char*>(o3) : "";
+        p.setOdgovor3(o3 ? reinterpret_cast<const char*>(o3) : "");
         const unsigned char* o4 = sqlite3_column_text(stmt, 5);
-        p.odgovor4 = o4 ? reinterpret_cast<const char*>(o4) : "";
+        p.setOdgovor4(o4 ? reinterpret_cast<const char*>(o4) : "");
         
-        p.tacan_odgovor = sqlite3_column_int(stmt, 6);
+        p.setTacanOdgovor(sqlite3_column_int(stmt, 6));
 
         pitanja.push_back(p);
     }

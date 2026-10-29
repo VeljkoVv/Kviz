@@ -6,8 +6,10 @@
 class Kviz{
     public:
         Kviz();
+        Kviz(int i, const std::string& n);
         Kviz(int i, const std::string& n, const std::vector<Pitanje>& p);
         Kviz(const Kviz& kviz);
+
 
         int getId() const;
         std::string getNaziv() const;
