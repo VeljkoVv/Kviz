@@ -1,7 +1,7 @@
 #include "baza.h"
-#include "sqlite3.h"
+#include "../lib/sqlite/sqlite3.h"
 #include <iostream>
-
+#include <stdexcept>
 
 Baza::Baza(const std::string& putanja){
     if(sqlite3_open_v2(putanja.c_str(), &db_p, SQLITE_OPEN_READONLY, nullptr) != SQLITE_OK){
@@ -15,7 +15,7 @@ Baza::~Baza(){
     sqlite3_close(db_p);
 }
 
-std::vector<KvizPodaci> ucitajSveKvizove(sqlite3* db_p) const{
+std::vector<KvizPodaci> Baza::ucitajSveKvizove() const{
     std::vector<KvizPodaci> kvizovi;
     sqlite3_stmt* stmt = nullptr;
 
@@ -43,7 +43,8 @@ std::vector<KvizPodaci> ucitajSveKvizove(sqlite3* db_p) const{
     return kvizovi;
 }
 
-std::vector<PitanjePodaci> ucitajSvaPitanjaKviza(int id_kviza, sqlite3* db_p) const{
-    
+std::vector<PitanjePodaci> Baza::ucitajSvaPitanjaKviza(int id_kviza) const{
+    PitanjePodaci p;
+
     return ;
 }
