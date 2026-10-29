@@ -6,7 +6,7 @@ struct sqlite3;
 
 struct PitanjePodaci{
     int id;
-    int id_kviza;
+    int kviz_id;
     std::string tekst;
     std::string odgovor1;
     std::string odgovor2;
@@ -28,7 +28,7 @@ class Baza{
         Baza& operator=(const Baza&) = delete;
 
         std::vector<KvizPodaci> ucitajSveKvizove();
-        std::vector<PitanjePodaci> ucitajSvaPitanjaKviza(int id_kviza);
+        std::vector<PitanjePodaci> ucitajSvaPitanjaKviza(int kviz_id);
 
     private:
         sqlite3* db_p = nullptr;

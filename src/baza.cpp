@@ -39,23 +39,23 @@ std::vector<KvizPodaci> Baza::ucitajSveKvizove() {
     return kvizovi;
 }
 
-std::vector<PitanjePodaci> Baza::ucitajSvaPitanjaKviza(int id_kviza) {
+std::vector<PitanjePodaci> Baza::ucitajSvaPitanjaKviza(int kviz_id) {
     std::vector<PitanjePodaci> pitanja;
     sqlite3_stmt* stmt = nullptr;
 
-    const char* sql = "SELECT id, id_kviza, tekst, odgovor1, odgovor2, odgovor3, odgovor4, tacan_odgovor FROM pitanja WHERE id_kviza = ?;";
+    const char* sql = "SELECT id, kviz_id, tekst, odgovor1, odgovor2, odgovor3, odgovor4, tacan_odgovor FROM pitanja WHERE kviz_id = ?;";
 
     if (sqlite3_prepare_v2(db_p, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         std::string err = sqlite3_errmsg(db_p);
         throw std::runtime_error("Greska pri upitu: " + err);
      }
 
-    sqlite3_bind_int(stmt, 1, id_kviza);
+    sqlite3_bind_int(stmt, 1, kviz_id);
 
     while(sqlite3_step(stmt) == SQLITE_ROW){
         PitanjePodaci p;
         p.id = sqlite3_column_int(stmt, 0);
-        p.id_kviza = sqlite3_column_int(stmt, 1);
+        p.kviz_id = sqlite3_column_int(stmt, 1);
     
         const unsigned char* tekst = sqlite3_column_text(stmt, 1);
         p.tekst = tekst ? reinterpret_cast<const char*>(tekst) : "";
