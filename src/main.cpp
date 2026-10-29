@@ -16,9 +16,7 @@ int main(){
 
     cout << "\nTrenutno dostpni kvizovi:" << endl;
     Baza b("db/kviz.db");
-    b.ucitajSveKvizove();
-    b.ucitajSvaPitanjaKviza(1);
-
+    
 
     return 0;
 }
