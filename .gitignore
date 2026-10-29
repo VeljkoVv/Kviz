@@ -73,3 +73,5 @@ lib/sqlite/*
 *.exe
 *.o
 /sqlite3.dll
+
+db/*.db
