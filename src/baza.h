@@ -1,11 +1,35 @@
 #pragma once
-#include "../lib/sqlite/sqlite3.h"
 #include <string>
+#include <vector>
+
+struct sqlite3;
+
+struct PitanjePodaci{
+    int id;
+    int id_kviza;
+    std::string tekst;
+    std::string odgovor1;
+    std::string odgovor2;
+    std::string odgovor3;
+    std::string odgovor4;
+    int tacan_odgovor;
+};
+
+struct KvizPodaci {
+    int id;
+    std::string naziv;
+};
 
 class Baza{
     public:
-        Baza(const std::string& putanja);
+        explicit Baza(const std::string& putanja);
         ~Baza();
+        Baza(const Baza&) = delete;
+        Baza& operator=(const Baza&) = delete;
+
+        std::vector<KvizPodaci> ucitajSveKvizove(sqlite3* db_p) const;
+        std::vector<PitanjePodaci> ucitajSvaPitanjaKviza(int id_kviza, sqlite3* db_p) const;
+
     private:
-        sqlite3* db_ = nullptr;
+        sqlite3* db_p = nullptr;
 };
