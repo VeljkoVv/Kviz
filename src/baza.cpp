@@ -19,7 +19,7 @@ std::vector<KvizPodaci> Baza::ucitajSveKvizove() {
     std::vector<KvizPodaci> kvizovi;
     sqlite3_stmt* stmt = nullptr;
 
-    const char* sql = "SELECT id, naziv FROM kvizovi;";
+    const char* sql = "SELECT id, naziv FROM kviz;";
 
      if (sqlite3_prepare_v2(db_p, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         std::string err = sqlite3_errmsg(db_p);
