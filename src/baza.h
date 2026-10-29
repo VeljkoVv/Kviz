@@ -27,8 +27,8 @@ class Baza{
         Baza(const Baza&) = delete;
         Baza& operator=(const Baza&) = delete;
 
-        std::vector<KvizPodaci> ucitajSveKvizove() const;
-        std::vector<PitanjePodaci> ucitajSvaPitanjaKviza(int id_kviza) const;
+        std::vector<KvizPodaci> ucitajSveKvizove();
+        std::vector<PitanjePodaci> ucitajSvaPitanjaKviza(int id_kviza);
 
     private:
         sqlite3* db_p = nullptr;
