@@ -1,6 +1,7 @@
 #include "baza.h"
 #include "../lib/sqlite/sqlite3.h"
 #include <iostream>
+#include <stdexcept>
 
 
 Baza::Baza(const std::string& putanja){
@@ -57,18 +58,18 @@ std::vector<Pitanje> Baza::ucitajSvaPitanjaKviza(int kviz_id) const{
         p.setId(sqlite3_column_int(stmt, 0));
         p.setIdKviza(sqlite3_column_int(stmt, 1));
     
-        const unsigned char* tekst = sqlite3_column_text(stmt, 1);
+        const unsigned char* tekst = sqlite3_column_text(stmt, 2);
         p.setTekst(tekst ? reinterpret_cast<const char*>(tekst) : "");
-        const unsigned char* o1 = sqlite3_column_text(stmt, 2);
+        const unsigned char* o1 = sqlite3_column_text(stmt, 3);
         p.setOdgovor1(o1 ? reinterpret_cast<const char*>(o1) : "");
-        const unsigned char* o2 = sqlite3_column_text(stmt, 3);
+        const unsigned char* o2 = sqlite3_column_text(stmt, 4);
         p.setOdgovor2(o2 ? reinterpret_cast<const char*>(o2) : "");
-        const unsigned char* o3 = sqlite3_column_text(stmt, 4);
+        const unsigned char* o3 = sqlite3_column_text(stmt, 5);
         p.setOdgovor3(o3 ? reinterpret_cast<const char*>(o3) : "");
-        const unsigned char* o4 = sqlite3_column_text(stmt, 5);
+        const unsigned char* o4 = sqlite3_column_text(stmt, 6);
         p.setOdgovor4(o4 ? reinterpret_cast<const char*>(o4) : "");
         
-        p.setTacanOdgovor(sqlite3_column_int(stmt, 6));
+        p.setTacanOdgovor(sqlite3_column_int(stmt, 7));
 
         pitanja.push_back(p);
     }

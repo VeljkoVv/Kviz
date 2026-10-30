@@ -10,8 +10,13 @@ Kviz::Kviz(int i, const std::string& n, const std::vector<Pitanje>& p) :
     id(i), naziv(n), pitanja(p) {}
 Kviz::Kviz(const Kviz& kviz) : id(kviz.id), naziv(kviz.naziv), pitanja(kviz.pitanja) {}
 
-void ispisiPitanje(){
-    
+void ucitajPitanja(const Baza& b, std::vector<Kviz>& kvizovi, int id){
+    for(auto& k : kvizovi){
+        if(k.getId() == id){
+            k.setPitanja(b.ucitajSvaPitanjaKviza(id));
+            break;
+        }
+    }
 }
 
 int Kviz::getId() const {return id;}

@@ -3,6 +3,8 @@
 #include <vector>
 #include "pitanje.h"
 
+class Baza;
+
 class Kviz{
     public:
         Kviz();
@@ -24,3 +26,5 @@ class Kviz{
         std::vector<Pitanje> pitanja;
 
 };
+
+void ucitajPitanja(const Baza& b, std::vector<Kviz>& kvizovi, int id);
