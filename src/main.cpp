@@ -64,9 +64,9 @@ int main(){
 
             ispisiPitanje(p, index_pitanja);
             
-            std::cout << "Vas odgovor: ";
             char c;
             do{
+                std::cout << "Vas odgovor: ";
                 std::cin >> c;
             } while (c < 'a' || c > 'd');
 
