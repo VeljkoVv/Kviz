@@ -12,6 +12,7 @@ class Kviz{
         Kviz(int i, const std::string& n, const std::vector<Pitanje>& p);
         Kviz(const Kviz& kviz);
 
+        static int pronadjiIndeks(const std::vector<Kviz>& kvizovi, int i);
 
         int getId() const;
         std::string getNaziv() const;

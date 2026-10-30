@@ -8,6 +8,8 @@ class Pitanje{
             const std::string& o3, const std::string& o4, int to);
         Pitanje(const Pitanje& p);
 
+        bool jeTacan(char c);
+
         int getId() const;
         int getIdKviza() const;
         const std::string& getTekst() const;
@@ -36,3 +38,4 @@ class Pitanje{
         std::string odgovor4;
         int tacan_odgovor;
 };
+

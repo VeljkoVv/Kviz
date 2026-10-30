@@ -19,6 +19,23 @@ void ucitajPitanja(const Baza& b, std::vector<Kviz>& kvizovi, int id){
     }
 }
 
+int Kviz::pronadjiIndeks(const std::vector<Kviz>& kvizovi, int i){
+    bool pronadjen = false;
+    int index_kviza = 0;
+    for (const auto& k : kvizovi){
+        if(i == k.getId()){
+            pronadjen = true;
+
+            break;
+        }
+        index_kviza++;
+    }
+    if(!pronadjen){
+        return -1;
+    }
+    return index_kviza;
+}
+
 int Kviz::getId() const {return id;}
 std::string Kviz::getNaziv() const {return naziv;}
 const std::vector<Pitanje> Kviz::getPitanja() const {return pitanja;}
