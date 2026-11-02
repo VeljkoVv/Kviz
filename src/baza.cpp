@@ -14,7 +14,19 @@ Baza::Baza(const std::string& putanja){
 }
 
 Baza::~Baza(){
-    sqlite3_close_v2(db_p);
+    bool closed;
+    int status = sqlite3_close(db_p);
+    if (status == SQLITE_OK){
+        closed = true;
+    } else if (status == SQLITE_BUSY){
+        std::cerr << "BP nije zatvorena (SQLITE_BUSY):\n";
+        closed =  false;
+    } else{
+        std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << std::endl;
+        closed = false;
+    }
+
+    std::cout << "\nClosed: " << closed;
 }
 
 std::map<int, Kviz> Baza::ucitajKvizove() const{
