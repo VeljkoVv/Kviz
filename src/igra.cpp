@@ -20,13 +20,18 @@ bool Igra::odaberiKviz(Baza& bp){
     for (const auto& [id, kviz] : kvizovi){
         std::cout << kviz.getId() << ". " << kviz.getNaziv() << std::endl;
     }
-    std::cout << "\nOdaberite zeljeni kviz: " << std::endl;
+    
     int i;
+    while (true) {
+        std::cout << "\nOdaberite zeljeni kviz: " << std::endl;
+        std::cin >> i;
+        if (!std::cin.fail()) break;
 
-    if(!(std::cin >> i) || !kvizovi.contains(i)){
-        std::cerr << "\nNepostojeca opcija!";
-        return false;
+        std::cout << "Unesite broj!\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+
     setKviz(kvizovi[i]);
     return true;
 }
@@ -39,19 +44,21 @@ void Igra::igrajKviz(Baza& b){
 
     std::vector<Pitanje> pitanja = kviz.getPitanja();
 
-    int index_pitanja = 1;
+    int redni_broj_pitanja = 1;
     for(auto& p : pitanja){
 
-        p.ispisiPitanje(std::cout, index_pitanja);
+        p.ispisiPitanje(std::cout, redni_broj_pitanja);
             
         char c;
-        do{
-            std::cout << "Vas odgovor: ";
-            std::cin >> c;
-        } while (c < 'a' || c > 'd');
+        std::cout << "Vas odgovor: ";
 
+        while (!(std::cin >> c) || c < 'a' || c > 'd'){
+            if (std::cin.eof()) return;
+            std::cin.clear();
+            std::cout << "\nOdgovor mora biti slovo (a-d): ";
+        } 
         proveriOdgovor(p, c);
-        index_pitanja++;
+        redni_broj_pitanja++;
     }
 }
 

@@ -14,7 +14,7 @@ Baza::Baza(const std::string& putanja){
 }
 
 Baza::~Baza(){
-    sqlite3_close(db_p);
+    sqlite3_close_v2(db_p);
 }
 
 std::map<int, Kviz> Baza::ucitajKvizove() const{
