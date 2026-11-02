@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
 #include "pitanje.h"
 
 class Baza;
@@ -12,11 +13,9 @@ class Kviz{
         Kviz(int i, const std::string& n, const std::vector<Pitanje>& p);
         Kviz(const Kviz& kviz);
 
-        static int pronadjiIndeks(const std::vector<Kviz>& kvizovi, int i);
-
         int getId() const;
         std::string getNaziv() const;
-        const std::vector<Pitanje> getPitanja() const;
+        const std::vector<Pitanje>& getPitanja() const;
 
         void setId(int i);
         void setNaziv(const std::string& n);
@@ -25,7 +24,4 @@ class Kviz{
         int id;
         std::string naziv;
         std::vector<Pitanje> pitanja;
-
 };
-
-void ucitajPitanja(const Baza& b, std::vector<Kviz>& kvizovi, int id);

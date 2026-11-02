@@ -13,6 +13,17 @@ bool Pitanje::jeTacan(char c) {
     return false;
 }
 
+void Pitanje::ispisiPitanje(std::ostream& out, int i) {
+    out << "\nPitanje " << i << ":" << std::endl;
+    out << getTekst() << std::endl;
+    out << std::endl;
+    out << "a. " << getOdgovor1() << std::endl;
+    out << "b. " << getOdgovor2() << std::endl;
+    out << "c. " << getOdgovor3() << std::endl;
+    out << "d. " << getOdgovor4() << std::endl;
+} 
+
+
 int Pitanje::getId() const {return id;}
 int Pitanje::getIdKviza() const {return id_kviza;}
 const std::string& Pitanje::getTekst() const {return tekst;}

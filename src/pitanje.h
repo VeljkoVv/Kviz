@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <ostream>
 
 class Pitanje{
     public:
@@ -9,6 +10,7 @@ class Pitanje{
         Pitanje(const Pitanje& p);
 
         bool jeTacan(char c);
+        void ispisiPitanje(std::ostream& out, int i);
 
         int getId() const;
         int getIdKviza() const;

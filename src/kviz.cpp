@@ -10,35 +10,9 @@ Kviz::Kviz(int i, const std::string& n, const std::vector<Pitanje>& p) :
     id(i), naziv(n), pitanja(p) {}
 Kviz::Kviz(const Kviz& kviz) : id(kviz.id), naziv(kviz.naziv), pitanja(kviz.pitanja) {}
 
-void ucitajPitanja(const Baza& b, std::vector<Kviz>& kvizovi, int id){
-    for(auto& k : kvizovi){
-        if(k.getId() == id){
-            k.setPitanja(b.ucitajSvaPitanjaKviza(id));
-            break;
-        }
-    }
-}
-
-int Kviz::pronadjiIndeks(const std::vector<Kviz>& kvizovi, int i){
-    bool pronadjen = false;
-    int index_kviza = 0;
-    for (const auto& k : kvizovi){
-        if(i == k.getId()){
-            pronadjen = true;
-
-            break;
-        }
-        index_kviza++;
-    }
-    if(!pronadjen){
-        return -1;
-    }
-    return index_kviza;
-}
-
 int Kviz::getId() const {return id;}
 std::string Kviz::getNaziv() const {return naziv;}
-const std::vector<Pitanje> Kviz::getPitanja() const {return pitanja;}
+const std::vector<Pitanje>& Kviz::getPitanja() const {return pitanja;}
 
 void Kviz::setId(int i) {id = i;}
 void Kviz::setNaziv(const std::string& n) {naziv = n;}

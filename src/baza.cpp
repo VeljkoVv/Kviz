@@ -2,6 +2,7 @@
 #include "../lib/sqlite/sqlite3.h"
 #include <iostream>
 #include <stdexcept>
+#include <map>
 
 
 Baza::Baza(const std::string& putanja){
@@ -16,8 +17,8 @@ Baza::~Baza(){
     sqlite3_close(db_p);
 }
 
-std::vector<Kviz> Baza::ucitajSveKvizove() const{
-    std::vector<Kviz> kvizovi;
+std::map<int, Kviz> Baza::ucitajKvizove() const{
+    std::map<int, Kviz> kvizovi;
     sqlite3_stmt* stmt = nullptr;
 
     const char* sql = "SELECT id, naziv FROM kviz;";
@@ -33,14 +34,14 @@ std::vector<Kviz> Baza::ucitajSveKvizove() const{
         const unsigned char* naziv = sqlite3_column_text(stmt, 1);
         k.setNaziv(naziv ? reinterpret_cast<const char*>(naziv) : "");
 
-        kvizovi.push_back(k);
+        kvizovi[k.getId()] = k;
      }
 
     sqlite3_finalize(stmt);
     return kvizovi;
 }
 
-std::vector<Pitanje> Baza::ucitajSvaPitanjaKviza(int kviz_id) const{
+void Baza::ucitajPitanjaKviza(Kviz& kviz) const{
     std::vector<Pitanje> pitanja;
     sqlite3_stmt* stmt = nullptr;
 
@@ -51,7 +52,7 @@ std::vector<Pitanje> Baza::ucitajSvaPitanjaKviza(int kviz_id) const{
         throw std::runtime_error("Greska pri upitu: " + err);
      }
 
-    sqlite3_bind_int(stmt, 1, kviz_id);
+    sqlite3_bind_int(stmt, 1, kviz.getId());
 
     while(sqlite3_step(stmt) == SQLITE_ROW){
         Pitanje p;
@@ -75,5 +76,5 @@ std::vector<Pitanje> Baza::ucitajSvaPitanjaKviza(int kviz_id) const{
     }
 
     sqlite3_finalize(stmt);
-    return pitanja;
+    kviz.setPitanja(pitanja);
 }

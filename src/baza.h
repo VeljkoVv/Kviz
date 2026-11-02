@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
 #include "kviz.h"
 #include "pitanje.h"
 
@@ -13,8 +14,8 @@ class Baza{
         Baza(const Baza&) = delete;
         Baza& operator=(const Baza&) = delete;
 
-        std::vector<Kviz> ucitajSveKvizove() const;
-        std::vector<Pitanje> ucitajSvaPitanjaKviza(int kviz_id) const;
+        std::map<int, Kviz> ucitajKvizove() const;
+        void ucitajPitanjaKviza(Kviz& k) const;
 
     private:
         sqlite3* db_p = nullptr;
