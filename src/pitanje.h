@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <ostream>
 
 class Pitanje{
     public:
@@ -8,13 +9,16 @@ class Pitanje{
             const std::string& o3, const std::string& o4, int to);
         Pitanje(const Pitanje& p);
 
+        bool jeTacan(char c);
+        void ispisiPitanje(std::ostream& out, int i);
+
         int getId() const;
         int getIdKviza() const;
-        std::string getTekst() const;
-        std::string getOdgovor1() const;
-        std::string getOdgovor2() const;
-        std::string getOdgovor3() const;
-        std::string getOdgovor4() const;
+        const std::string& getTekst() const;
+        const std::string& getOdgovor1() const;
+        const std::string& getOdgovor2() const;
+        const std::string& getOdgovor3() const;
+        const std::string& getOdgovor4() const;
         int getTacanOdgovor() const;
 
         void setId(int id);
@@ -36,3 +40,4 @@ class Pitanje{
         std::string odgovor4;
         int tacan_odgovor;
 };
+

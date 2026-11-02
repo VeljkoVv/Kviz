@@ -69,7 +69,10 @@ Testing/
 
 lib/sqlite/*
 !lib/sqlite/.gitkeep
+lib/sqlite/sqlite3.c
 
 *.exe
 *.o
 /sqlite3.dll
+
+db/*.db
