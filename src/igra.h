@@ -14,13 +14,13 @@ class Igra{
         void proveriOdgovor(Pitanje& p, char c);
         void krajKviza();
 
-        std::string getIme();
-        Kviz getKviz();
-        int getBodovi();
+        std::string getIme() const;
+        Kviz getKviz() const;
+        int getBodovi() const;
 
         void setIme(std::string i);
         void setBodovi(int b);
-        void setKviz(Kviz& k);
+        void setKviz(const Kviz& k);
     private:
         std::string ime;
         Kviz kviz;         

@@ -7,7 +7,6 @@ Igra::Igra(std::string i, Kviz k, int b) : ime(i), kviz(k), bodovi(b) {}
 void Igra::zapocniIgru(){
     std::cout << "Unesite vase ime: " << std::endl;
     std::cin >> ime;
-    setIme(ime);
 }
     
 bool Igra::odaberiKviz(Baza& bp){
@@ -23,9 +22,8 @@ bool Igra::odaberiKviz(Baza& bp){
     }
     std::cout << "\nOdaberite zeljeni kviz: " << std::endl;
     int i;
-    std::cin >> i;
 
-    if(!kvizovi.contains(i)){
+    if(!(std::cin >> i) || !kvizovi.contains(i)){
         std::cerr << "\nNepostojeca opcija!";
         return false;
     }
@@ -34,6 +32,7 @@ bool Igra::odaberiKviz(Baza& bp){
 }
 
 void Igra::igrajKviz(Baza& b){
+    bodovi = 0;
     std::cout << "\n" << kviz.getId() << ". " << kviz.getNaziv() << std::endl;
 
     b.ucitajPitanjaKviza(kviz);
@@ -64,13 +63,13 @@ void Igra::krajKviza(){
     std::cout << "\n" << getIme() << " je pogodio " << getBodovi() << "/" << getKviz().getPitanja().size() << " pitanja." << std::endl;
 }
 
-std::string Igra::getIme(){
+std::string Igra::getIme() const{
     return ime;
 }
-Kviz Igra::getKviz(){
+Kviz Igra::getKviz() const{
     return kviz;
 }
-int Igra::getBodovi(){
+int Igra::getBodovi() const{
     return bodovi;
 }
 
@@ -80,6 +79,6 @@ void Igra::setIme(std::string i){
 void Igra::setBodovi(int b){
     bodovi = b;
 }
-void Igra::setKviz(Kviz& k){
+void Igra::setKviz(const Kviz& k){
     kviz = k;
 }
