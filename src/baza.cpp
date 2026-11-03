@@ -17,16 +17,17 @@ Baza::Baza(const std::string& putanja){
 Baza::Baza(sqlite3* db) : db_p(db), vlasnik(false) {}
 
 Baza::~Baza(){
-    if(vlasnik){
-        int status = sqlite3_close(db_p);
-        if (status == SQLITE_OK){
+    if(vlasnik && db_p != nullptr){
+        int status = sqlite3_close_v2(db_p);
+
+        if (status == SQLITE_OK) {
             std::cerr << "BP uspesno zatvorena.\n";
-        } else if (status == SQLITE_BUSY){
-            std::cerr << "BP nije odmah zatvorena (SQLITE_BUSY): \n";
-            sqlite3_close_v2(db_p);
-        } else{
-            std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << std::endl;
         }
+        else {
+            std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << '\n';
+        }
+
+        db_p = nullptr;
     }
 }
 
