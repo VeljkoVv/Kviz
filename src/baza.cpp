@@ -18,18 +18,15 @@ Baza::Baza(sqlite3* db) : db_p(db), vlasnik(false) {}
 
 Baza::~Baza(){
     if(vlasnik){
-        bool closed;
         int status = sqlite3_close(db_p);
         if (status == SQLITE_OK){
-            closed = true;
+            std::cerr << "BP uspesno zatvorena.\n";
         } else if (status == SQLITE_BUSY){
-            std::cerr << "BP nije zatvorena (SQLITE_BUSY):\n";
-            closed =  false;
+            std::cerr << "BP nije odmah zatvorena (SQLITE_BUSY): \n";
+            sqlite3_close_v2(db_p);
         } else{
             std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << std::endl;
-            closed = false;
         }
-        std::cout << "\nClosed: " << closed;
     }
 }
 
