@@ -6,6 +6,7 @@
 
 
 Baza::Baza(const std::string& putanja){
+    vlasnik = true;
     if(sqlite3_open_v2(putanja.c_str(), &db_p, SQLITE_OPEN_READONLY, nullptr) != SQLITE_OK){
         std::string err = sqlite3_errmsg(db_p);
         sqlite3_close(db_p);
@@ -13,20 +14,23 @@ Baza::Baza(const std::string& putanja){
     }
 }
 
-Baza::~Baza(){
-    bool closed;
-    int status = sqlite3_close(db_p);
-    if (status == SQLITE_OK){
-        closed = true;
-    } else if (status == SQLITE_BUSY){
-        std::cerr << "BP nije zatvorena (SQLITE_BUSY):\n";
-        closed =  false;
-    } else{
-        std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << std::endl;
-        closed = false;
-    }
+Baza::Baza(sqlite3* db) : db_p(db), vlasnik(false) {}
 
-    std::cout << "\nClosed: " << closed;
+Baza::~Baza(){
+    if(vlasnik){
+        bool closed;
+        int status = sqlite3_close(db_p);
+        if (status == SQLITE_OK){
+            closed = true;
+        } else if (status == SQLITE_BUSY){
+            std::cerr << "BP nije zatvorena (SQLITE_BUSY):\n";
+            closed =  false;
+        } else{
+            std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << std::endl;
+            closed = false;
+        }
+        std::cout << "\nClosed: " << closed;
+    }
 }
 
 std::map<int, Kviz> Baza::ucitajKvizove() const{
