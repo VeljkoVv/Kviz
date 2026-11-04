@@ -116,7 +116,7 @@ void Baza::rangListaUpis(std::string ime, int bodovi, int id_kviza) const{
     sqlite3_finalize(stmt);
 }
 
-void Baza::rangListaKviza(int id_kviza, std::string ime_kviza) const{
+void Baza::rangListaKviza(int id_kviza, std::string ime_kviza, std::ostream& out) const{
     sqlite3_stmt* stmt = nullptr;
     const char* sql = "SELECT ime_igraca, bodovi FROM Rang_lista WHERE id_kviza = ? ORDER BY bodovi DESC, id ASC LIMIT 10;";
 
@@ -128,28 +128,28 @@ void Baza::rangListaKviza(int id_kviza, std::string ime_kviza) const{
     sqlite3_bind_int(stmt, 1, id_kviza);
     int mesto = 1;
 
-    std::cout << "\n------------------------" << std::endl;
-    std::cout << "Rang lista kviza " << ime_kviza << ":" << std::endl;
+    out << "\n------------------------" << std::endl;
+    out << "Rang lista kviza " << ime_kviza << ":" << std::endl;
     while(sqlite3_step(stmt) == SQLITE_ROW){
         
         const unsigned char* ime = sqlite3_column_text(stmt, 0);
         int bodovi = sqlite3_column_int(stmt, 1);
 
-        std::cout << mesto++ << ". " << (ime ? reinterpret_cast<const char*>(ime) : "") << " | " << bodovi;
+        out << mesto++ << ". " << (ime ? reinterpret_cast<const char*>(ime) : "") << " | " << bodovi;
         switch (bodovi){
             case 1:
-                std::cout << " bod";
+                out << " bod";
                 break;
             case 2:
             case 3:
             case 4:
-                std::cout << " boda";
+                out << " boda";
                 break;
             default:
-                std::cout << " bodova";
+                out << " bodova";
                 break;
         } 
-        std::cout << "\n";
+        out << "\n";
     }
     sqlite3_finalize(stmt);
 }

@@ -1,11 +1,8 @@
 #include "kviz.h"
-#include "pitanje.h"
 #include "baza.h"
 #include "igra.h"
 #include <iostream>
-#include <string>
-#include <vector> 
-#include <map>
+
 
 #define DB_PATH "db/kviz.db"
     
@@ -21,7 +18,7 @@ int main(){
     i.krajKviza();
 
     b.rangListaUpis(i.getIme(), i.getBodovi(), i.getKviz().getId());
-    b.rangListaKviza(i.getKviz().getId(), i.getKviz().getNaziv());
+    b.rangListaKviza(i.getKviz().getId(), i.getKviz().getNaziv(), std::cout);
 
     return 0;
 }
