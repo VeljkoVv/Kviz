@@ -10,6 +10,7 @@ struct sqlite3;
 class Baza{
     public:
         explicit Baza(const std::string& putanja);
+        explicit Baza(sqlite3* db);
         ~Baza();
         Baza(const Baza&) = delete;
         Baza& operator=(const Baza&) = delete;
@@ -19,4 +20,5 @@ class Baza{
 
     private:
         sqlite3* db_p = nullptr;
+        bool vlasnik;
 };

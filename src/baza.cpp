@@ -6,6 +6,7 @@
 
 
 Baza::Baza(const std::string& putanja){
+    vlasnik = true;
     if(sqlite3_open_v2(putanja.c_str(), &db_p, SQLITE_OPEN_READONLY, nullptr) != SQLITE_OK){
         std::string err = sqlite3_errmsg(db_p);
         sqlite3_close(db_p);
@@ -13,8 +14,21 @@ Baza::Baza(const std::string& putanja){
     }
 }
 
+Baza::Baza(sqlite3* db) : db_p(db), vlasnik(false) {}
+
 Baza::~Baza(){
-    sqlite3_close_v2(db_p);
+    if(vlasnik && db_p != nullptr){
+        int status = sqlite3_close_v2(db_p);
+
+        if (status == SQLITE_OK) {
+            std::cerr << "BP uspesno zatvorena.\n";
+        }
+        else {
+            std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << '\n';
+        }
+
+        db_p = nullptr;
+    }
 }
 
 std::map<int, Kviz> Baza::ucitajKvizove() const{
