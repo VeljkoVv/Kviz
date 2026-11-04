@@ -20,6 +20,8 @@ int main(){
     
     i.krajKviza();
 
-    
+    b.rangListaUpis(i.getIme(), i.getBodovi(), i.getKviz().getId());
+    b.rangListaKviza(i.getKviz().getId(), i.getKviz().getNaziv());
+
     return 0;
 }

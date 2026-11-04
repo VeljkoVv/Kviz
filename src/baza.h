@@ -17,7 +17,8 @@ class Baza{
 
         std::map<int, Kviz> ucitajKvizove() const;
         void ucitajPitanjaKviza(Kviz& k) const;
-
+        void rangListaUpis(std::string ime, int bodovi, int id_kviza) const;
+        void rangListaKviza(int id_kviza, std::string ime_kviza) const;
     private:
         sqlite3* db_p = nullptr;
         bool vlasnik;

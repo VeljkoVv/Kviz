@@ -7,10 +7,10 @@
 
 Baza::Baza(const std::string& putanja){
     vlasnik = true;
-    if(sqlite3_open_v2(putanja.c_str(), &db_p, SQLITE_OPEN_READONLY, nullptr) != SQLITE_OK){
+    if(sqlite3_open_v2(putanja.c_str(), &db_p, SQLITE_OPEN_READWRITE, nullptr) != SQLITE_OK){
         std::string err = sqlite3_errmsg(db_p);
         sqlite3_close(db_p);
-        throw std::runtime_error("Greska pri otvaranju BP: " + err);
+        throw std::runtime_error("\nGreska pri otvaranju BP: " + err);
     }
 }
 
@@ -21,10 +21,10 @@ Baza::~Baza(){
         int status = sqlite3_close_v2(db_p);
 
         if (status == SQLITE_OK) {
-            std::cerr << "BP uspesno zatvorena.\n";
+            std::cerr << "\nBP uspesno zatvorena.\n";
         }
         else {
-            std::cerr << "Greska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << '\n';
+            std::cerr << "\nGreska pri zatvaranju BP (" << status << "): " << sqlite3_errstr(status) << '\n';
         }
 
         db_p = nullptr;
@@ -64,7 +64,7 @@ void Baza::ucitajPitanjaKviza(Kviz& kviz) const{
     if (sqlite3_prepare_v2(db_p, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         std::string err = sqlite3_errmsg(db_p);
         throw std::runtime_error("Greska pri upitu: " + err);
-     }
+    }
 
     sqlite3_bind_int(stmt, 1, kviz.getId());
 
@@ -91,4 +91,65 @@ void Baza::ucitajPitanjaKviza(Kviz& kviz) const{
 
     sqlite3_finalize(stmt);
     kviz.setPitanja(pitanja);
+}
+
+void Baza::rangListaUpis(std::string ime, int bodovi, int id_kviza) const{
+    sqlite3_stmt* stmt = nullptr;
+
+    const char* sql = "INSERT INTO Rang_lista (ime_igraca, id_kviza, bodovi) VALUES (?, ?, ?)";
+    
+    if (sqlite3_prepare_v2(db_p, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        std::string err = sqlite3_errmsg(db_p);
+        throw std::runtime_error("Greska pri upisu: " + err);
+    }
+
+    sqlite3_bind_text(stmt, 1, ime.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(stmt, 2, id_kviza);
+    sqlite3_bind_int(stmt, 3, bodovi);
+
+    if(sqlite3_step(stmt) != SQLITE_DONE){
+        std::string err = sqlite3_errmsg(db_p);
+        sqlite3_finalize(stmt);
+        throw std::runtime_error("Greska pri upisu u rang listu: " + err);
+    }
+
+    sqlite3_finalize(stmt);
+}
+
+void Baza::rangListaKviza(int id_kviza, std::string ime_kviza) const{
+    sqlite3_stmt* stmt = nullptr;
+    const char* sql = "SELECT ime_igraca, bodovi FROM Rang_lista WHERE id_kviza = ? ORDER BY bodovi DESC, id ASC LIMIT 10;";
+
+    if (sqlite3_prepare_v2(db_p, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        std::string err = sqlite3_errmsg(db_p);
+        throw std::runtime_error("Greska pri upitu rang liste: " + err);
+    }
+    
+    sqlite3_bind_int(stmt, 1, id_kviza);
+    int mesto = 1;
+
+    std::cout << "\n------------------------" << std::endl;
+    std::cout << "Rang lista kviza " << ime_kviza << ":" << std::endl;
+    while(sqlite3_step(stmt) == SQLITE_ROW){
+        
+        const unsigned char* ime = sqlite3_column_text(stmt, 0);
+        int bodovi = sqlite3_column_int(stmt, 1);
+
+        std::cout << mesto++ << ". " << (ime ? reinterpret_cast<const char*>(ime) : "") << " | " << bodovi;
+        switch (bodovi){
+            case 1:
+                std::cout << " bod";
+                break;
+            case 2:
+            case 3:
+            case 4:
+                std::cout << " boda";
+                break;
+            default:
+                std::cout << " bodova";
+                break;
+        } 
+        std::cout << "\n";
+    }
+    sqlite3_finalize(stmt);
 }
