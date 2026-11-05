@@ -107,13 +107,14 @@ void Baza::rangListaUpis(std::string ime, int bodovi, int id_kviza) const{
     sqlite3_bind_int(stmt, 2, id_kviza);
     sqlite3_bind_int(stmt, 3, bodovi);
 
+    sqlite3_finalize(stmt);
+
     if(sqlite3_step(stmt) != SQLITE_DONE){
         std::string err = sqlite3_errmsg(db_p);
-        sqlite3_finalize(stmt);
         throw std::runtime_error("Greska pri upisu u rang listu: " + err);
     }
 
-    sqlite3_finalize(stmt);
+    
 }
 
 void Baza::rangListaKviza(int id_kviza, std::string ime_kviza, std::ostream& out) const{
