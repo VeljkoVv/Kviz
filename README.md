@@ -11,3 +11,14 @@ Place both files in:
 lib/sqlite/
   sqlite3.dll
   sqlite3.h
+
+
+## Baza podataka
+
+Baza se pravi iz SQL fajla `db/kviz.sql`, koji sadrži tabele i početne podatke (kvizove i pitanja).
+
+From the project folder:
+
+```bash
+sqlite3 db/kviz.db < db/kviz.sql
+```
